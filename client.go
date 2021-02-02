@@ -212,9 +212,9 @@ func (c *Client) Close() {
 }
 
 // CreateDataChannel create a custom datachannel
-func (c *Client) CreateDataChannel(label string) (*webrtc.DataChannel, error) {
+func (c *Client) CreateDataChannel(label string, options *webrtc.DataChannelInit) (*webrtc.DataChannel, error) {
 	log.Infof("c=%v", c)
-	return c.pub.pc.CreateDataChannel(label, &webrtc.DataChannelInit{})
+	return c.pub.pc.CreateDataChannel(label, options)
 }
 
 // Trickle receive candidate from sfu and add to pc
