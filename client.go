@@ -56,8 +56,6 @@ func NewClient(addr string, cfg WebRTCTransportConfig) *Client {
 		notify:         make(chan struct{}),
 		remoteStreamId: make(map[string]string),
 	}
-	c.pub = NewTransport(PUBLISHER, c.signal, c.cfg)
-	c.sub = NewTransport(SUBSCRIBER, c.signal, c.cfg)
 
 	c.signal.OnNegotiate = c.Negotiate
 	c.signal.OnTrickle = c.Trickle
@@ -65,6 +63,9 @@ func NewClient(addr string, cfg WebRTCTransportConfig) *Client {
 	c.signal.OnError = func(err error) {
 		c.OnError(err)
 	}
+
+	c.pub = NewTransport(PUBLISHER, c.signal, c.cfg)
+	c.sub = NewTransport(SUBSCRIBER, c.signal, c.cfg)
 
 	// this will be called when pub add/remove/replace track, but pion never triger, why?
 	// c.pub.pc.OnNegotiationNeeded(c.OnNegotiationNeeded)
