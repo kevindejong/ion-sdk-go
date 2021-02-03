@@ -61,7 +61,9 @@ func NewClient(addr string, cfg WebRTCTransportConfig) *Client {
 	c.signal.OnTrickle = c.Trickle
 	c.signal.OnSetRemoteSDP = c.SetRemoteSDP
 	c.signal.OnError = func(err error) {
-		c.OnError(err)
+		if c.OnError != nil {
+			c.OnError(err)
+		}
 	}
 
 	c.pub = NewTransport(PUBLISHER, c.signal, c.cfg)
